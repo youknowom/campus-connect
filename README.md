@@ -1,36 +1,106 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Campus Connect
+
+A Reddit-style social platform for campus communities built with Next.js, Clerk authentication, and Prisma.
+
+## Features
+
+- 🔐 **Authentication**: Secure sign-in/sign-up using Clerk
+- 📝 **Posts**: Create text and image posts
+- 💬 **Comments**: Reply to posts with threaded discussions
+- ⬆️ **Voting**: Upvote and downvote posts
+- 🎨 **Modern UI**: Beautiful Reddit-like interface with dark mode support
+- 📱 **Responsive**: Works on all devices
+
+## Tech Stack
+
+- **Next.js 16** - React framework
+- **Clerk** - Authentication
+- **Prisma** - Database ORM
+- **PostgreSQL** - Database
+- **Tailwind CSS** - Styling
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
+
+- Node.js 18+ installed
+- PostgreSQL database
+- Clerk account (for authentication)
+
+### Setup
+
+1. **Install dependencies:**
+
+```bash
+npm install
+```
+
+2. **Set up environment variables:**
+
+Create a `.env` file in the root directory:
+
+```env
+DATABASE_URL="postgresql://user:password@localhost:5432/campus_connect"
+NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=your_clerk_publishable_key
+CLERK_SECRET_KEY=your_clerk_secret_key
+```
+
+3. **Set up the database:**
+
+```bash
+npx prisma generate
+npx prisma migrate dev
+```
+
+4. **Run the development server:**
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+## Project Structure
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- `app/` - Next.js app router pages and API routes
+- `components/` - React components (PostCard, PostForm, CommentSection, etc.)
+- `lib/` - Utility functions (Prisma client)
+- `prisma/` - Database schema and migrations
+- `public/` - Static assets and uploaded images
 
-## Learn More
+## Features Overview
 
-To learn more about Next.js, take a look at the following resources:
+### Authentication
+- Sign in/Sign up with Clerk
+- Protected routes using middleware
+- User profiles with avatars
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Posts
+- Create text posts
+- Upload images with posts
+- View all posts in a feed
+- Vote on posts (upvote/downvote)
+- Comment on posts
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### Comments
+- Reply to posts
+- View all comments for a post
+- Real-time comment updates
 
-## Deploy on Vercel
+## Database Schema
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- **User**: Stores user information from Clerk
+- **Post**: Posts with text and optional images
+- **Comment**: Comments on posts
+- **Vote**: User votes on posts
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Deployment
+
+The easiest way to deploy is using [Vercel](https://vercel.com):
+
+1. Push your code to GitHub
+2. Import your repository on Vercel
+3. Add environment variables
+4. Deploy!
+
+Make sure to set up your database (e.g., using Vercel Postgres or another provider) and configure Clerk for production.
