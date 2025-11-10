@@ -21,6 +21,14 @@ export default function Home() {
       if (res.ok) {
         const data = await res.json();
         setPosts(data);
+      } else {
+        const errorData = await res.json().catch(() => ({ error: "Failed to fetch posts" }));
+        console.error("Error fetching posts:", errorData);
+        // Show error to user
+        if (errorData.details) {
+          console.error("Error details:", errorData.details);
+          console.error("Hint:", errorData.hint);
+        }
       }
     } catch (error) {
       console.error("Error fetching posts:", error);

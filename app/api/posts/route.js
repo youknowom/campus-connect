@@ -5,19 +5,36 @@ import path from "path";
 import { NextResponse } from "next/server";
 
 export async function GET() {
-  const posts = await prisma.post.findMany({
-    include: {
-      author: true,
-      _count: {
-        select: {
-          comments: true,
-          votes: true,
+  try {
+    const posts = await prisma.post.findMany({
+      include: {
+        author: true,
+        _count: {
+          select: {
+            comments: true,
+            votes: true,
+          },
         },
       },
-    },
-    orderBy: { createdAt: "desc" },
-  });
-  return NextResponse.json(posts);
+      orderBy: { createdAt: "desc" },
+    });
+    return NextResponse.json(posts);
+  } catch (error) {
+    console.error("Error fetching posts:", error);
+    const errorMessage = process.env.NODE_ENV === "development" 
+      ? error.message 
+      : "Failed to fetch posts";
+    return NextResponse.json(
+      { 
+        error: "Failed to fetch posts", 
+        details: errorMessage,
+        hint: process.env.NODE_ENV === "development" 
+          ? "Check if DATABASE_URL is set and database is running. Run 'npx prisma generate' and 'npx prisma migrate dev' if needed."
+          : undefined
+      },
+      { status: 500 }
+    );
+  }
 }
 
 export async function POST(req) {

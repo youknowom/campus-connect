@@ -4,10 +4,12 @@ const isPublicRoute = createRouteMatcher([
   "/sign-in(.*)",
   "/sign-up(.*)",
   "/api/webhooks(.*)",
+  "/api/posts(.*)", // Allow API routes to handle auth internally
   "/", // Home page is public (shows sign-in if not authenticated)
 ]);
 
 export default clerkMiddleware(async (auth, req) => {
+  // Only protect non-public routes
   if (!isPublicRoute(req)) {
     await auth.protect();
   }
